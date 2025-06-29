@@ -1,5 +1,5 @@
 import React from "react";
-import { Users } from "lucide-react";
+import { LogOut, Users } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import type { SidebarItem } from "../types/settings";
 import { getRouteFromLabel } from "../utils/routes";
@@ -15,6 +15,13 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarItems }) => {
   // Check if the current route matches this item's route
   const isActive = (label: string): boolean => {
     const route = getRouteFromLabel(label);
+
+    // Special case for Settings to ensure it's active for all settings/* routes
+    if (label === "Settings" && location.pathname.startsWith("/settings")) {
+      return true;
+    }
+
+    // Default case for other routes
     if (route === "/" && location.pathname === "/") {
       return true;
     }
@@ -22,7 +29,7 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarItems }) => {
   };
 
   return (
-    <div className="w-64 bg-white border-r min-h-screen">
+    <div className="w-70 bg-white border-r border-gray-200 min-h-screen">
       <div className="p-6">
         <Link to="/" className="block">
           <div className="flex items-center space-x-3 mb-8">
@@ -46,7 +53,8 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarItems }) => {
 
         <nav className="space-y-1">
           {sidebarItems.map((item: SidebarItem, index: number) => {
-            const active = isActive(item.label);
+            // Use item.active property or fall back to route-based active state
+            const active = item.active || isActive(item.label);
             return (
               <Link
                 key={index}
@@ -88,12 +96,8 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarItems }) => {
           <p className="text-sm text-gray-600 mb-3">
             Check out the new dashboard view. Pages now load faster.
           </p>
-          <div className="flex items-center space-x-3">
-            <img
-              src="https://images.unsplash.com/photo-1494790108755-2616b612b977?w=40&h=40&fit=crop&crop=face"
-              alt="Dismiss"
-              className="w-10 h-10 rounded-full"
-            />
+          <div className="flex flex-col items-left space-x-3 space-y-2">
+            <img src="/video-image.png" alt="Dismiss" className="" />
             <div>
               <p className="text-sm font-medium">Dismiss</p>
               <p className="text-xs text-gray-500">What's new?</p>
@@ -101,15 +105,18 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarItems }) => {
           </div>
         </div>
 
-        <div className="mt-6 flex items-center space-x-3 p-3 border rounded-lg">
-          <img
-            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face"
-            alt="Olivia Rhye"
-            className="w-10 h-10 rounded-full"
-          />
-          <div className="flex-1">
-            <p className="font-medium">Olivia Rhye</p>
-            <p className="text-sm text-gray-500">olivia@untitledui.com</p>
+        <div className="mt-6 flex items-center justify-between p-3 border rounded-lg">
+          <div className="flex items-center justify-between space-x-3">
+            <img
+              src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face"
+              alt="Olivia Rhye"
+              className="w-10 h-10 rounded-full"
+            />
+            <LogOut size={20} className="text-gray-500 hover:text-gray-700" />
+            <div>
+              <p className="font-medium leading-tight">Olivia Rhye</p>
+              <p className="text-sm text-gray-500">olivia@untitledui.com</p>
+            </div>
           </div>
         </div>
       </div>

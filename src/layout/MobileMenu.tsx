@@ -52,7 +52,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
   return (
     <>
       {/* Mobile Header */}
-      <div className="lg:hidden bg-white px-4 py-3 flex items-center justify-between shadow-sm fixed top-0 left-0 w-full z-50 ">
+      <div className="lg:hidden bg-blue px-4 py-3 flex items-center justify-between shadow-sm fixed top-0 left-0 w-full z-50 ">
         <Link to="/" className="flex items-center space-x-3">
           <div className="w-8 h-8 bg-purple-600 rounded flex items-center justify-center">
             <span className="text-white text-sm font-semibold">U</span>
@@ -83,7 +83,8 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
             </div>
             <nav className="space-y-1">
               {sidebarItems.map((item: SidebarItem, index: number) => {
-                const active = isActive(item.label);
+                // Use item.active property or fall back to route-based active state
+                const active = item.active || isActive(item.label);
                 return (
                   <Link
                     key={index}

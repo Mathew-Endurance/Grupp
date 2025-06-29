@@ -47,7 +47,7 @@ export const getStatusStyles = (status: string): StatusStyle => {
 export const COMPONENT_STYLES = {
   // Button styles
   button: {
-    primary: "bg-purple-600 hover:bg-purple-700 text-white",
+    primary: "bg-purple-600 hover:bg-purple-700 text-w",
     secondary: "bg-white border border-gray-300 hover:bg-gray-50 text-gray-700",
     danger: "bg-red-600 hover:bg-red-700 text-white",
   },
