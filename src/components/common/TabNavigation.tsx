@@ -85,8 +85,8 @@ const TabNavigation: React.FC<TabNavigationProps> = ({
               className={classNames(
                 "px-4 py-3 text-sm font-medium whitespace-nowrap transition-all",
                 activeTab === tab
-                  ? "bg-gray-100 text-gray-900"
-                  : "bg-white text-gray-700 hover:bg-gray-50",
+                  ? "bg-purple-400 text-gray-900"
+                  : "bg-white text-gray-700 hover:bg-purple-100",
                 idx < tabs.length - 1 ? "border-r border-gray-300" : ""
               )}
             >

@@ -13,7 +13,16 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarItems }) => {
   const location = useLocation();
 
   // Check if the current route matches this item's route
-  const isActive = (label: string): boolean => {
+  const isActive = (label: string, active: boolean): boolean => {
+    // If we're on the root path and this item is marked as active in the data,
+    // or if we're redirected from root to /settings, consider it active
+    if (
+      location.pathname === "/" ||
+      (location.pathname === "/settings" && label === "Settings")
+    ) {
+      return active;
+    }
+
     const route = getRouteFromLabel(label);
 
     // Special case for Settings to ensure it's active for all settings/* routes
@@ -53,8 +62,7 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarItems }) => {
 
         <nav className="space-y-1">
           {sidebarItems.map((item: SidebarItem, index: number) => {
-            // Use item.active property or fall back to route-based active state
-            const active = item.active || isActive(item.label);
+            const active = isActive(item.label, item.active);
             return (
               <Link
                 key={index}

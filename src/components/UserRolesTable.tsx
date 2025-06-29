@@ -201,7 +201,7 @@ const UserRolesTable: React.FC<UserRolesTableProps> = ({
             </table>
 
             {/* Mobile Table */}
-            <table className="w-full md:hidden">
+            <table className="w-full md:hidden text-xs md:text-sm">
               <thead className="bg-gray-50">
                 <tr>
                   {mobileHeaders.map((header) => (

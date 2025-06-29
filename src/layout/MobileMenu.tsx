@@ -41,7 +41,16 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
   };
 
   // Check if the current route matches this item's route
-  const isActive = (label: string): boolean => {
+  const isActive = (label: string, active: boolean): boolean => {
+    // If we're on the root path and this item is marked as active in the data,
+    // or if we're redirected from root to /settings, consider it active
+    if (
+      location.pathname === "/" ||
+      (location.pathname === "/settings" && label === "Settings")
+    ) {
+      return active;
+    }
+
     const route = getItemRoute(label);
     if (route === "/" && location.pathname === "/") {
       return true;
@@ -52,7 +61,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
   return (
     <>
       {/* Mobile Header */}
-      <div className="lg:hidden bg-blue px-4 py-3 flex items-center justify-between shadow-sm fixed top-0 left-0 w-full z-50 ">
+      <div className="lg:hidden bg-white opacity-100 px-4 py-3 flex items-center justify-between shadow-sm fixed top-0 left-0 w-full z-50 ">
         <Link to="/" className="flex items-center space-x-3">
           <div className="w-8 h-8 bg-purple-600 rounded flex items-center justify-center">
             <span className="text-white text-sm font-semibold">U</span>
@@ -83,8 +92,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
             </div>
             <nav className="space-y-1">
               {sidebarItems.map((item: SidebarItem, index: number) => {
-                // Use item.active property or fall back to route-based active state
-                const active = item.active || isActive(item.label);
+                const active = isActive(item.label, item.active);
                 return (
                   <Link
                     key={index}
