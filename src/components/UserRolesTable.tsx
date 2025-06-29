@@ -1,9 +1,35 @@
 import React, { useState, useMemo } from "react";
-import { CloudDownload } from "lucide-react";
+import { CloudDownload, Check, Users } from "lucide-react";
 import type { Role } from "../types/settings";
-import { getStatusColor } from "../utils/util";
+import { classNames } from "../utils/styles";
 import Pagination from "./Pagination";
 import { tableHeaders } from "../data";
+
+interface StatusDisplay {
+  color: string;
+  icon: React.ReactNode;
+}
+
+// Status styling helper function
+const getStatusColor = (status: Role["status"]): StatusDisplay => {
+  switch (status) {
+    case "Active":
+      return {
+        color: "bg-green-100 text-green-800",
+        icon: <Check size={14} className="mr-1" />,
+      };
+    case "Inactive":
+      return {
+        color: "bg-orange-100 text-orange-800",
+        icon: null,
+      };
+    default:
+      return {
+        color: "bg-gray-100 text-gray-800",
+        icon: null,
+      };
+  }
+};
 
 interface UserRolesTableProps {
   roles: Role[];
@@ -35,21 +61,57 @@ const UserRolesTable: React.FC<UserRolesTableProps> = ({
     setSelectedRow(selectedRow === index ? null : index);
   };
 
+  // Render avatar group with count
+  const renderAvatarGroup = (role: Role, size: "sm" | "md" = "md") => {
+    const totalUsers = role.users?.length || role.role_users?.length || 0;
+    const avatars = generateAvatars(role.users);
+    const hasMoreUsers = totalUsers > 4;
+    const moreCount = totalUsers - 4;
+
+    if (totalUsers === 0) {
+      return (
+        <div className="flex items-center">
+          <div
+            className={`bg-gray-200 rounded-full ${
+              size === "sm" ? "w-8 h-8" : "w-10 h-10"
+            } flex items-center justify-center`}
+          >
+            <Users size={size === "sm" ? 14 : 16} className="text-gray-500" />
+          </div>
+          <span className="ml-2 text-xs text-gray-500">No users</span>
+        </div>
+      );
+    }
+
+    return (
+      <div className="flex items-center">
+        <div className="flex -space-x-1">{avatars}</div>
+        {hasMoreUsers && (
+          <span
+            className={`text-sm text-gray-700 bg-gray-50 rounded-full ${
+              size === "sm" ? "w-8 h-8" : "w-10 h-10"
+            } -ml-2 border-2 border-white flex items-center justify-center`}
+          >
+            +{moreCount}
+          </span>
+        )}
+      </div>
+    );
+  };
+
   // Mobile view shows only Name and Date Created columns
   const mobileHeaders = ["", "Name", "Date Created"];
 
   return (
-    <div className="bg-white rounded-lg ">
-      <div className="p-4 md:p-6 ">
-        <div className="p-4 md:p-6 ">
-          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-            <h3 className="text-lg font-semibold">User Roles</h3>
+    <div className="bg-white rounded-lg">
+      <div className="p-4 md:p-6">
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+          <h3 className="text-lg font-semibold">User Roles</h3>
 
-            <button className="flex items-center text-gray-600 hover:text-gray-700 border border-gray-400 rounded-md px-3 py-1 text-sm w-fit md:w-auto">
-              <CloudDownload size={16} className="mr-1" />
-              <span>Download all</span>
-            </button>
-          </div>
+          <button className="flex items-center text-gray-600 hover:text-gray-700 border border-gray-400 rounded-md px-3 py-1 text-sm w-fit md:w-auto">
+            <CloudDownload size={16} className="mr-1" />
+            <span>Download all</span>
+          </button>
         </div>
       </div>
 
@@ -96,9 +158,10 @@ const UserRolesTable: React.FC<UserRolesTableProps> = ({
                     {/* user status  */}
                     <td className="px-6 py-4 whitespace-nowrap">
                       <span
-                        className={`inline-flex items-center px-2 py-1 text-xs font-semibold rounded-full ${
+                        className={classNames(
+                          "inline-flex items-center px-2 py-1 text-xs font-semibold rounded-full",
                           getStatusColor(role.status).color
-                        }`}
+                        )}
                       >
                         {getStatusColor(role.status).icon}
                         {role.status}
@@ -155,9 +218,10 @@ const UserRolesTable: React.FC<UserRolesTableProps> = ({
                 {paginatedRoles.map((role: Role, index: number) => (
                   <React.Fragment key={index}>
                     <tr
-                      className={`hover:bg-gray-50 ${
+                      className={classNames(
+                        "hover:bg-gray-50",
                         selectedRow === index ? "bg-gray-50" : ""
-                      }`}
+                      )}
                       onClick={() => handleRowSelect(index)}
                     >
                       {/* checkbox */}
@@ -195,9 +259,10 @@ const UserRolesTable: React.FC<UserRolesTableProps> = ({
                                 Status
                               </span>
                               <span
-                                className={`inline-flex items-center px-2 py-1 text-xs font-semibold rounded-full ${
+                                className={classNames(
+                                  "inline-flex items-center px-2 py-1 text-xs font-semibold rounded-full",
                                   getStatusColor(role.status).color
-                                }`}
+                                )}
                               >
                                 {getStatusColor(role.status).icon}
                                 {role.status}
@@ -208,21 +273,7 @@ const UserRolesTable: React.FC<UserRolesTableProps> = ({
                               <span className="text-xs font-medium text-gray-500 uppercase">
                                 Role users
                               </span>
-                              <div className="flex items-center">
-                                <div className="flex -space-x-1">
-                                  {generateAvatars(role.users)}
-                                </div>
-                                {(role.users?.length ||
-                                  role.role_users?.length ||
-                                  0) > 4 && (
-                                  <span className="text-sm text-gray-700 bg-gray-50 rounded-full w-8 h-8 -ml-2 border-2 border-white flex items-center justify-center">
-                                    +
-                                    {(role.users?.length ||
-                                      role.role_users?.length ||
-                                      0) - 4}
-                                  </span>
-                                )}
-                              </div>
+                              {renderAvatarGroup(role, "sm")}
                             </div>
                           </div>
                         </td>

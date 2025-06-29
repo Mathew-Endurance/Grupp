@@ -5,13 +5,7 @@ import PageHeader from "../components/common/PageHeader";
 import ComingSoon from "../components/common/ComingSoon";
 import TabNavigation from "../components/common/TabNavigation";
 import { tabs } from "../data";
-import type { TabName } from "../types/settings";
-
-interface ComingSoonPageProps {
-  title: string;
-  description?: string;
-  activeTab?: TabName;
-}
+import type { ComingSoonPageProps, TabName } from "../types/settings";
 
 const ComingSoonPage: React.FC<ComingSoonPageProps> = ({
   title,

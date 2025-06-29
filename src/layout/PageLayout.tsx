@@ -23,7 +23,7 @@ const PageLayout: React.FC<PageLayoutProps> = ({ children }) => {
         sidebarItems={sidebarItems}
       />
 
-      <div className="flex w-full">
+      <div className="flex w-full mt-16 md:mt-2">
         {/* Desktop Sidebar - hidden on mobile */}
         <div className="hidden lg:block">
           <Sidebar sidebarItems={sidebarItems} />

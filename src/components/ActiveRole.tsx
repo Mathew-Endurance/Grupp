@@ -1,12 +1,6 @@
 import React from "react";
 import { Check, Plus, User } from "lucide-react";
-import type { Role } from "../types/settings";
-
-interface ActiveRoleProps {
-  roles: Role[];
-  activeRole: string;
-  onRoleSelection: (roleName: string) => void;
-}
+import type { ActiveRoleProps, Role } from "../types/settings";
 
 const ActiveRole: React.FC<ActiveRoleProps> = ({
   roles,

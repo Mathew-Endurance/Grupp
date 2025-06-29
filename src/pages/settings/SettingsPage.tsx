@@ -69,6 +69,7 @@ const SettingsPage: React.FC = () => {
         tabs={tabs}
         activeTab={activeTab}
         onTabClick={setActiveTab}
+        usePagination={true}
       />
 
       {/* User Roles Section */}

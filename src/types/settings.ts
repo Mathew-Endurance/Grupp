@@ -32,7 +32,25 @@ export type TabName =
   | "Notifications"
   | "Integrations"
   | "API";
+export interface ActiveRoleProps {
+  roles: Role[];
+  activeRole: string;
+  onRoleSelection: (roleName: string) => void;
+}
 
-// export interface SettingsPageProps {
-//   // Add props if needed in the future
-// }
+export interface PaginationProps {
+  totalItems: number;
+  itemsPerPage: number;
+  currentPage: number;
+  onPageChange: (page: number) => void;
+}
+export interface SettingsHeaderProps {
+  title: string;
+  description: string;
+}
+
+export interface ComingSoonPageProps {
+  title: string;
+  description?: string;
+  activeTab?: TabName;
+}

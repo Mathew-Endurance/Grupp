@@ -2,6 +2,8 @@ import React from "react";
 import { Users } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import type { SidebarItem } from "../types/settings";
+import { getRouteFromLabel } from "../utils/routes";
+import { classNames, COMPONENT_STYLES } from "../utils/styles";
 
 interface SidebarProps {
   sidebarItems: SidebarItem[];
@@ -10,33 +12,9 @@ interface SidebarProps {
 const Sidebar: React.FC<SidebarProps> = ({ sidebarItems }) => {
   const location = useLocation();
 
-  // Map sidebar items to their routes
-  const getItemRoute = (label: string): string => {
-    switch (label) {
-      case "Home":
-        return "/";
-      case "Dashboard":
-        return "/dashboard";
-      case "Projects":
-        return "/projects";
-      case "Tasks":
-        return "/tasks";
-      case "Reporting":
-        return "/reporting";
-      case "Users":
-        return "/users";
-      case "Support":
-        return "/support";
-      case "Settings":
-        return "/settings";
-      default:
-        return "/";
-    }
-  };
-
   // Check if the current route matches this item's route
   const isActive = (label: string): boolean => {
-    const route = getItemRoute(label);
+    const route = getRouteFromLabel(label);
     if (route === "/" && location.pathname === "/") {
       return true;
     }
@@ -72,19 +50,26 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarItems }) => {
             return (
               <Link
                 key={index}
-                to={getItemRoute(item.label)}
-                className={`flex items-center justify-between px-3 py-2 rounded-lg cursor-pointer ${
+                to={getRouteFromLabel(item.label)}
+                className={classNames(
+                  "flex items-center justify-between px-3 py-2 rounded-lg cursor-pointer",
                   active
-                    ? "bg-purple-50 text-purple-600 border-l-4 border-purple-600"
+                    ? COMPONENT_STYLES.activeState.sidebar
                     : "text-gray-600 hover:bg-gray-50"
-                }`}
+                )}
               >
                 <div className="flex items-center space-x-3">
                   <item.icon
                     size={20}
-                    className={active ? "text-purple-600" : ""}
+                    className={
+                      active ? COMPONENT_STYLES.activeState.default : ""
+                    }
                   />
-                  <span className={active ? "text-purple-600" : ""}>
+                  <span
+                    className={
+                      active ? COMPONENT_STYLES.activeState.default : ""
+                    }
+                  >
                     {item.label}
                   </span>
                 </div>

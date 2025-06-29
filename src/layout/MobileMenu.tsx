@@ -52,7 +52,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
   return (
     <>
       {/* Mobile Header */}
-      <div className="lg:hidden bg-white px-4 py-3 flex items-center justify-between shadow-sm">
+      <div className="lg:hidden bg-white px-4 py-3 flex items-center justify-between shadow-sm fixed top-0 left-0 w-full z-50 ">
         <Link to="/" className="flex items-center space-x-3">
           <div className="w-8 h-8 bg-purple-600 rounded flex items-center justify-center">
             <span className="text-white text-sm font-semibold">U</span>
@@ -70,8 +70,8 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
 
       {/* Mobile Menu Overlay */}
       {isMobileMenuOpen && (
-        <div className="lg:hidden fixed inset-0 z-50 bg-black bg-opacity-50">
-          <div className="bg-white w-64 h-full p-6 overflow-y-auto">
+        <div className="lg:hidden fixed inset-0 z-40 bg-gray-300 bg-opacity-50">
+          <div className="fixed top-0 left-0 w-64 h-full bg-white p-6 overflow-y-auto z-50 shadow-lg">
             <div className="flex justify-end mb-4">
               <button
                 onClick={handleMobileMenuToggle}
