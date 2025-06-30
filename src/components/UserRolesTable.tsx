@@ -190,7 +190,7 @@ const UserRolesTable: React.FC<UserRolesTableProps> = ({
                   ))}
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+              <tbody className="bg-white sm:text-sm divide-y divide-gray-200">
                 {paginatedRoles.map((role: Role, index: number) => (
                   <React.Fragment key={index}>
                     <tr
@@ -210,7 +210,7 @@ const UserRolesTable: React.FC<UserRolesTableProps> = ({
                         />
                       </td>
 
-                      <td className="px-3 py-4 whitespace-nowrap">
+                      <td className="px-1 md:px-3 text-xs md:text-base py-4 whitespace-nowrap">
                         <span className="font-medium">{role.name}</span>
                       </td>
                       <td className="px-3 py-4 whitespace-nowrap text-sm text-gray-500">
@@ -227,7 +227,9 @@ const UserRolesTable: React.FC<UserRolesTableProps> = ({
                               <span className="text-xs font-medium text-gray-500 uppercase">
                                 Type
                               </span>
-                              <span className="text-sm">{role.type}</span>
+                              <span className="text-xs md:text-base ">
+                                {role.type}
+                              </span>
                             </div>
 
                             <div className="flex justify-between items-center">
