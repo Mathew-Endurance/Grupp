@@ -1,17 +1,9 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
-import PageLayout from "../layout/PageLayout";
-import PageHeader from "../components/common/PageHeader";
 import ComingSoon from "../components/common/ComingSoon";
-import TabNavigation from "../components/common/TabNavigation";
-import { tabs } from "../data";
-import type { ComingSoonPageProps, TabName } from "../types/settings";
+import type { ComingSoonPageProps, TabName } from "../types/type";
 
-const ComingSoonPage: React.FC<ComingSoonPageProps> = ({
-  title,
-  description = "Manage your team and preferences here.",
-  activeTab,
-}) => {
+const ComingSoonPage: React.FC<ComingSoonPageProps> = ({ activeTab }) => {
   const location = useLocation();
 
   // Determine active tab from URL path
@@ -32,18 +24,10 @@ const ComingSoonPage: React.FC<ComingSoonPageProps> = ({
   const currentActiveTab = getActiveTabFromPath();
 
   return (
-    <PageLayout>
-      <PageHeader title={title} description={description} />
-
-      {(title === "Settings" || activeTab) && (
-        <TabNavigation tabs={tabs} activeTab={currentActiveTab} />
-      )}
-
-      <ComingSoon
-        title={`${currentActiveTab} Coming Soon`}
-        description={`The ${currentActiveTab.toLowerCase()} page is under development and will be available soon.`}
-      />
-    </PageLayout>
+    <ComingSoon
+      title={`${currentActiveTab} Coming Soon`}
+      description={`The ${currentActiveTab.toLowerCase()} page is under development and will be available soon.`}
+    />
   );
 };
 

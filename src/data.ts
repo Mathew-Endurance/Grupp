@@ -8,7 +8,7 @@ import {
   HelpCircle,
   Settings,
 } from "lucide-react";
-import type { SidebarItem, TabName } from "./types/settings";
+import type { RouteMetadata, SidebarItem, TabName } from "./types/type";
 
 export const sidebarItems: SidebarItem[] = [
   { icon: Home, label: "Home", active: false },
@@ -43,3 +43,38 @@ export const tableHeaders: string[] = [
   "Role users",
   "Actions",
 ];
+
+export const ROUTE_METADATA: Record<string, RouteMetadata> = {
+  "/": {
+    title: "Home",
+    description: "Your personalized dashboard and overview.",
+  },
+  "/dashboard": {
+    title: "Dashboard",
+    description: "View your analytics and performance metrics.",
+  },
+  "/projects": {
+    title: "Projects",
+    description: "Manage and track your ongoing projects.",
+  },
+  "/tasks": {
+    title: "Tasks",
+    description: "Organize and manage your tasks and to-dos.",
+  },
+  "/reporting": {
+    title: "Reporting",
+    description: "View and generate reports for your activities.",
+  },
+  "/users": {
+    title: "Users",
+    description: "Manage team members, roles, and permissions",
+  },
+  "/support": {
+    title: "Support",
+    description: "Get help and support for your questions.",
+  },
+};
+export const DEFAULT_METADATA: RouteMetadata = {
+  title: "Page Not Found",
+  description: "The page you are looking for does not exist",
+};

@@ -1,6 +1,6 @@
 import React from "react";
 import { Check, Plus, User } from "lucide-react";
-import type { ActiveRoleProps, Role } from "../types/settings";
+import type { ActiveRoleProps, Role } from "@/types/type";
 
 const ActiveRole: React.FC<ActiveRoleProps> = ({
   roles,
@@ -8,7 +8,7 @@ const ActiveRole: React.FC<ActiveRoleProps> = ({
   onRoleSelection,
 }) => {
   return (
-    <div className="bg-white rounded-lg   flex flex-col md:flex-row space-x-16">
+    <div className="bg-white rounded-lg px-4 py-4 flex flex-col md:flex-row space-x-16">
       <div className="">
         <h3 className="text-sm font-medium text-gray-700 mb-2">Active Role</h3>
         <p className="text-sm text-gray-600 mb-4">
@@ -41,9 +41,7 @@ const ActiveRole: React.FC<ActiveRoleProps> = ({
               )}
               <div>
                 <p className="font-medium">{role.name}</p>
-                <p className="text-sm text-gray-500">
-                  Last active {role.date_created}
-                </p>
+                <p className="text-sm text-gray-500">Last active {role.date}</p>
                 <div className="flex items-center space-x-3 mt-1">
                   <button
                     onClick={() => onRoleSelection(role.name)}

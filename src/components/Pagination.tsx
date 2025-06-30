@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, type JSX } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import type { PaginationProps } from "@/types/settings";
+import type { PaginationProps } from "@/types/type";
 
 const Pagination: React.FC<PaginationProps> = ({
   totalItems,
@@ -8,124 +8,86 @@ const Pagination: React.FC<PaginationProps> = ({
   currentPage,
   onPageChange,
 }) => {
-  const [inputPage, setInputPage] = useState<string>(currentPage.toString());
   const totalPages = Math.ceil(totalItems / itemsPerPage);
+  const [inputPage, setInputPage] = useState(currentPage.toString());
+  const start = Math.min((currentPage - 1) * itemsPerPage + 1, totalItems);
+  const end = Math.min(currentPage * itemsPerPage, totalItems);
 
-  const handlePrevious = () => {
-    if (currentPage > 1) {
-      onPageChange(currentPage - 1);
-      setInputPage((currentPage - 1).toString());
+  const goToPage = (p: number) => {
+    if (p >= 1 && p <= totalPages) {
+      onPageChange(p);
+      setInputPage(p.toString());
     }
   };
 
-  const handleNext = () => {
-    if (currentPage < totalPages) {
-      onPageChange(currentPage + 1);
-      setInputPage((currentPage + 1).toString());
-    }
-  };
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputPage(e.target.value);
-  };
-
-  const handleInputBlur = () => {
-    const page = parseInt(inputPage, 10);
-    if (!isNaN(page) && page >= 1 && page <= totalPages) {
-      onPageChange(page);
-    } else {
+  const handleInput = () => {
+    const p = parseInt(inputPage, 10);
+    if (isNaN(p)) {
       setInputPage(currentPage.toString());
+    } else {
+      goToPage(p);
     }
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      handleInputBlur();
-    }
-  };
+  const Button = ({
+    label,
+    icon,
+    disabled,
+    page,
+  }: {
+    label: string;
+    icon: JSX.Element;
+    disabled: boolean;
+    page: number;
+  }) => (
+    <button
+      onClick={() => goToPage(page)}
+      disabled={disabled}
+      aria-label={label}
+      className={`inline-flex items-center rounded-md border text-sm font-medium transition px-4 py-2 sm:p-2 ${
+        disabled
+          ? "text-gray-300 border-gray-300 cursor-not-allowed"
+          : "text-gray-700 border-gray-300 hover:bg-purple-100"
+      }`}
+    >
+      <span className="sm:hidden">{label}</span>
+      <span className="hidden sm:block">{icon}</span>
+    </button>
+  );
 
   return (
     <div className="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
-      <div className="flex flex-1 justify-between sm:hidden">
-        <button
-          onClick={handlePrevious}
-          disabled={currentPage === 1}
-          className={`relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium ${
-            currentPage === 1
-              ? "text-gray-300 cursor-not-allowed"
-              : "text-gray-700 hover:bg-gray-50"
-          }`}
-        >
-          Previous
-        </button>
-        <button
-          onClick={handleNext}
-          disabled={currentPage === totalPages}
-          className={`relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium ${
-            currentPage === totalPages
-              ? "text-gray-300 cursor-not-allowed"
-              : "text-gray-700 hover:bg-gray-50"
-          }`}
-        >
-          Next
-        </button>
-      </div>
-
-      <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
-        <div>
-          <p className="text-sm text-gray-700">
-            Showing{" "}
-            <span className="font-medium">
-              {Math.min((currentPage - 1) * itemsPerPage + 1, totalItems)}
-            </span>{" "}
-            to{" "}
-            <span className="font-medium">
-              {Math.min(currentPage * itemsPerPage, totalItems)}
-            </span>{" "}
-            of <span className="font-medium">{totalItems}</span> results
-          </p>
-        </div>
-
-        <div className="flex items-center space-x-2">
-          <button
-            onClick={handlePrevious}
+      <div className="flex w-full flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <p className="text-sm text-gray-700 text-center sm:text-left">
+          Showing <span className="font-medium">{start}</span> to{" "}
+          <span className="font-medium">{end}</span> of{" "}
+          <span className="font-medium">{totalItems}</span> results
+        </p>
+        <div className="flex items-center justify-between w-full sm:w-auto sm:space-x-2">
+          <Button
+            label="Previous"
+            icon={<ChevronLeft size={16} />}
             disabled={currentPage === 1}
-            className={`relative inline-flex items-center rounded-md p-2 ${
-              currentPage === 1
-                ? "text-gray-300 cursor-not-allowed"
-                : "text-gray-500 hover:bg-gray-50"
-            }`}
-            aria-label="Previous page"
-          >
-            <ChevronLeft size={16} />
-          </button>
-
-          <div className="flex items-center">
+            page={currentPage - 1}
+          />
+          <div className="hidden sm:flex items-center">
             <span className="text-sm text-gray-700 mr-2">Page</span>
             <input
-              type="text"
               value={inputPage}
-              onChange={handleInputChange}
-              onBlur={handleInputBlur}
-              onKeyDown={handleKeyDown}
-              className="w-12 h-8 rounded-md border border-gray-300 text-center text-sm"
-              aria-label="Go to page"
+              onChange={(e) => setInputPage(e.target.value)}
+              onBlur={handleInput}
+              onKeyDown={(e) => e.key === "Enter" && handleInput()}
+              aria-label="Page number"
+              className="w-12 h-8 rounded-md border text-center text-sm border-gray-300 focus:ring-2 focus:ring-purple-500"
             />
             <span className="text-sm text-gray-700 ml-2">of {totalPages}</span>
           </div>
-
-          <button
-            onClick={handleNext}
+          <Button
+            label="Next"
+            icon={<ChevronRight size={16} />}
             disabled={currentPage === totalPages}
-            className={`relative inline-flex items-center rounded-md p-2 ${
-              currentPage === totalPages
-                ? "text-gray-300 cursor-not-allowed"
-                : "text-gray-500 hover:bg-gray-50"
-            }`}
-            aria-label="Next page"
-          >
-            <ChevronRight size={16} />
-          </button>
+            page={currentPage + 1}
+          />
         </div>
       </div>
     </div>

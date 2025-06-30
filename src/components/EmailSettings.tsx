@@ -12,7 +12,6 @@ const EmailSettings: React.FC = () => {
       </div>
 
       <div className=" space-y-4">
-        {/* My account email option */}
         <label className="flex items-start space-x-3 cursor-pointer">
           <input
             type="radio"
@@ -28,7 +27,6 @@ const EmailSettings: React.FC = () => {
           </div>
         </label>
 
-        {/* An alternative email option */}
         <label className="flex items-start space-x-3 cursor-pointer">
           <input
             type="radio"
