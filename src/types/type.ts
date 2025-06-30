@@ -7,7 +7,7 @@ export interface RoleUser {
 export interface Role {
   name: string;
   type: "DEFAULT" | "CUSTOM" | "SYSTEM+CUSTOM" | "SYSTEM-CUSTOM";
-  date_created: string;
+  date: string;
   status: "Active" | "Inactive";
   role_users?: RoleUser[];
   users?: string[]; // Array of avatar URLs
@@ -53,4 +53,18 @@ export interface ComingSoonPageProps {
   title: string;
   description?: string;
   activeTab?: TabName;
+}
+
+export interface RouteMetadata {
+  title: string;
+  description: string;
+}
+
+export interface UseRouteMetadataOptions {
+  fallback?: RouteMetadata;
+}
+
+export interface UseRouteMetadataReturn extends RouteMetadata {
+  isValidRoute: boolean;
+  routeKey: string;
 }

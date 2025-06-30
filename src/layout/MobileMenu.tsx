@@ -1,7 +1,8 @@
 import React from "react";
 import { Menu, X } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
-import type { SidebarItem } from "../types/settings";
+import type { SidebarItem } from "../types/type";
+import { getRouteFromLabel } from "../route/routes";
 
 interface MobileMenuProps {
   isMobileMenuOpen: boolean;
@@ -16,52 +17,21 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
 }) => {
   const location = useLocation();
 
-  // Map sidebar items to their routes
-  const getItemRoute = (label: string): string => {
-    switch (label) {
-      case "Home":
-        return "/";
-      case "Dashboard":
-        return "/dashboard";
-      case "Projects":
-        return "/projects";
-      case "Tasks":
-        return "/tasks";
-      case "Reporting":
-        return "/reporting";
-      case "Users":
-        return "/users";
-      case "Support":
-        return "/support";
-      case "Settings":
-        return "/settings";
-      default:
-        return "/";
-    }
-  };
-
   // Check if the current route matches this item's route
-  const isActive = (label: string, active: boolean): boolean => {
-    // If we're on the root path and this item is marked as active in the data,
-    // or if we're redirected from root to /settings, consider it active
-    if (
-      location.pathname === "/" ||
-      (location.pathname === "/settings" && label === "Settings")
-    ) {
-      return active;
-    }
+  const isActive = (label: string, defaultActive: boolean): boolean => {
+    const path = location.pathname;
+    const route = getRouteFromLabel(label);
 
-    const route = getItemRoute(label);
-    if (route === "/" && location.pathname === "/") {
-      return true;
-    }
-    return location.pathname.startsWith(route) && route !== "/";
+    if (path === "/" && defaultActive) return true;
+    if (label === "Settings" && path === "/settings") return true;
+    if (route === "/" && path === "/") return true;
+    return path.startsWith(route) && route !== "/";
   };
 
   return (
     <>
       {/* Mobile Header */}
-      <div className="lg:hidden bg-white opacity-100 px-4 py-3 flex items-center justify-between shadow-sm fixed top-0 left-0 w-full z-50 ">
+      <div className="lg:hidden bg-white opacity-100 px-4 py-3 flex items-center justify-between shadow-sm fixed top-0 left-0 w-full z-50">
         <Link to="/" className="flex items-center space-x-3">
           <div className="w-8 h-8 bg-purple-600 rounded flex items-center justify-center">
             <span className="text-white text-sm font-semibold">U</span>
@@ -70,7 +40,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
         </Link>
         <button
           onClick={handleMobileMenuToggle}
-          className="p-2"
+          className="p-2 rounded hover:bg-gray-100"
           aria-label="Toggle mobile menu"
         >
           {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
@@ -84,7 +54,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
             <div className="flex justify-end mb-4">
               <button
                 onClick={handleMobileMenuToggle}
-                className="p-2"
+                className="p-2 rounded hover:bg-gray-100"
                 aria-label="Close menu"
               >
                 <X size={20} />
@@ -93,10 +63,12 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
             <nav className="space-y-1">
               {sidebarItems.map((item: SidebarItem, index: number) => {
                 const active = isActive(item.label, item.active);
+                const route = getRouteFromLabel(item.label);
+
                 return (
                   <Link
                     key={index}
-                    to={getItemRoute(item.label)}
+                    to={route}
                     onClick={handleMobileMenuToggle}
                     className={`flex items-center justify-between px-3 py-2 rounded-lg cursor-pointer ${
                       active

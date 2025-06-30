@@ -1,69 +1,119 @@
-# React + TypeScript + Vite
+# GRUPP UI – Modern React Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A clean and responsive dashboard built with React, TypeScript, and TailwindCSS. It features a modern UI, mobile-friendly layouts, and well-structured components to speed up development.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Responsive Design** – Looks great on both desktop and mobile
+- **Modular Components** – Built with reusable and maintainable UI elements
+- **Mobile Navigation** – Optimized navigation for smaller screens
+- **User Roles & Settings** – Manage roles, permissions, and settings pages
+- **Pagination** – Smart pagination logic for data-heavy tables
+- **Modern UI** – Styled with TailwindCSS for a polished look
 
-## Expanding the ESLint configuration
+## Tech Stack
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **React 19** – With hooks and concurrent features
+- **TypeScript** – Strong typing and better tooling
+- **Vite** – Lightning-fast build tool
+- **TailwindCSS** – Utility-first CSS styling
+- **React Router** – Client-side routing
+- **Lucide Icons** – Clean and modern icon set
+- **Vitest** – Fast unit testing
+- **React Testing Library** – Tests that simulate real user interactions
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Getting Started
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+### Prerequisites
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- Node.js v18 or higher
+
+### Installation
+
+```bash
+# Clone the repository
+git clone <repository-url>
+
+# Navigate to the project folder
+cd grupp
+
+# Install dependencies
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Development
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+# Run the dev server
+npm run dev
 ```
+
+### Production Build
+
+```bash
+# Create production build
+npm run build
+
+# Preview production build
+npm run preview
+```
+
+### Testing
+
+```bash
+# Run all tests
+npm test
+
+# Watch mode
+npm run test:watch
+
+# Test coverage report
+npm run test:coverage
+```
+
+## Project Structure
+
+```
+grupp/
+├── public/             # Static files
+├── src/
+│   ├── assets/         # Images and media
+│   ├── components/     # Shared and common UI components
+│   │   └── common/
+│   ├── layout/         # App layout elements
+│   ├── pages/          # Route-level views
+│   │   └── settings/
+│   ├── route/          # App routing config
+│   ├── test/           # Test setup and helpers
+│   ├── types/          # Custom TypeScript types
+│   └── utils/          # Helper functions
+├── App.tsx             # Root component
+└── main.tsx            # App entry point
+```
+
+## UI Components Overview
+
+### Layout
+
+- `PageLayout` – Primary layout with sidebar
+- `Sidebar` – Desktop side navigation
+- `MobileMenu` – Mobile nav drawer
+- `MobileFooter` – Bottom nav for small screens
+
+### Common
+
+- `TabNavigation` – Tabs for switching views
+- `PageHeader` – Title and optional description
+- `Pagination` – Component with pagination logic
+- `UserRolesTable` – Role management table
+
+## Testing Strategy
+
+Tests are written with Vitest and React Testing Library, covering component behavior, responsiveness, and user interactions.
+
+## Browser Compatibility
+
+- Chrome (latest)
+- Firefox (latest)
+- Safari (latest)
+- Edge (latest)

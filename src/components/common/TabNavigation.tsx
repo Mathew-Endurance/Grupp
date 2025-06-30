@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import type { TabName } from "../../types/settings";
-import { getRouteFromTab } from "../../utils/routes";
-import { classNames } from "../../utils/styles";
+import type { TabName } from "../../types/type";
+import { getRouteFromTab } from "../../route/routes";
+import { classNames } from "../../styles";
 
 interface TabNavigationProps {
   tabs: TabName[];
@@ -22,17 +22,6 @@ const TabNavigation: React.FC<TabNavigationProps> = ({
 
   const endIndex = Math.min(startIndex + tabsPerPage, tabs.length);
   const visibleTabs = usePagination ? tabs.slice(startIndex, endIndex) : tabs;
-
-  useEffect(() => {
-    const activeTabIndex = tabs.indexOf(activeTab);
-    if (activeTabIndex >= 0) {
-      if (activeTabIndex < startIndex) {
-        setStartIndex(Math.max(0, activeTabIndex - (tabsPerPage - 1)));
-      } else if (activeTabIndex >= endIndex) {
-        setStartIndex(Math.min(activeTabIndex, tabs.length - tabsPerPage));
-      }
-    }
-  }, [activeTab, tabs, startIndex, endIndex]);
 
   const handleTabClick = (tab: TabName) => {
     const tabIndex = tabs.indexOf(tab);
@@ -85,8 +74,8 @@ const TabNavigation: React.FC<TabNavigationProps> = ({
               className={classNames(
                 "px-4 py-3 text-sm font-medium whitespace-nowrap transition-all",
                 activeTab === tab
-                  ? "bg-purple-400 text-gray-900"
-                  : "bg-white text-gray-700 hover:bg-purple-100",
+                  ? "bg-purple-100 text-gray-900"
+                  : "bg-white text-gray-700 hover:bg-gray-50",
                 idx < tabs.length - 1 ? "border-r border-gray-300" : ""
               )}
             >

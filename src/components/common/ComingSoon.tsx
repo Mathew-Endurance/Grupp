@@ -17,11 +17,6 @@ const ComingSoon: React.FC<ComingSoonProps> = ({ title, description }) => {
         <p className="text-gray-600 text-center max-w-md mb-8">{description}</p>
       )}
       <div className="w-full max-w-md bg-white rounded-lg border border-gray-200 p-6">
-        <div className="flex items-center justify-center space-x-2 mb-4">
-          <div className="w-2 h-2 bg-purple-600 rounded-full animate-pulse"></div>
-          <div className="w-2 h-2 bg-purple-600 rounded-full animate-pulse delay-150"></div>
-          <div className="w-2 h-2 bg-purple-600 rounded-full animate-pulse delay-300"></div>
-        </div>
         <p className="text-center text-gray-600">
           We're working hard to bring you this feature soon!
         </p>

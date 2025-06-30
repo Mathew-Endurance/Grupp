@@ -1,35 +1,11 @@
 import React, { useState, useMemo } from "react";
-import { CloudDownload, Check, Users } from "lucide-react";
-import type { Role } from "../types/settings";
-import { classNames } from "../utils/styles";
+import { CloudDownload, Users } from "lucide-react";
+
+import { classNames } from "../styles";
 import Pagination from "./Pagination";
 import { tableHeaders } from "../data";
-
-interface StatusDisplay {
-  color: string;
-  icon: React.ReactNode;
-}
-
-// Status styling helper function
-const getStatusColor = (status: Role["status"]): StatusDisplay => {
-  switch (status) {
-    case "Active":
-      return {
-        color: "bg-green-100 text-green-800",
-        icon: <Check size={14} className="mr-1" />,
-      };
-    case "Inactive":
-      return {
-        color: "bg-orange-100 text-orange-800",
-        icon: null,
-      };
-    default:
-      return {
-        color: "bg-gray-100 text-gray-800",
-        icon: null,
-      };
-  }
-};
+import type { Role } from "../types/type";
+import { getStatusColor } from "../utils/util";
 
 interface UserRolesTableProps {
   roles: Role[];
@@ -152,7 +128,7 @@ const UserRolesTable: React.FC<UserRolesTableProps> = ({
                       <span className="text-sm">{role.type}</span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {role.date_created}
+                      {role.date}
                     </td>
 
                     {/* user status  */}
@@ -201,7 +177,7 @@ const UserRolesTable: React.FC<UserRolesTableProps> = ({
             </table>
 
             {/* Mobile Table */}
-            <table className="w-full md:hidden text-xs md:text-sm">
+            <table className="w-full md:hidden">
               <thead className="bg-gray-50">
                 <tr>
                   {mobileHeaders.map((header) => (
@@ -238,7 +214,7 @@ const UserRolesTable: React.FC<UserRolesTableProps> = ({
                         <span className="font-medium">{role.name}</span>
                       </td>
                       <td className="px-3 py-4 whitespace-nowrap text-sm text-gray-500">
-                        {role.date_created}
+                        {role.date}
                       </td>
                     </tr>
 

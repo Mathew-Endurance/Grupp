@@ -1,4 +1,4 @@
-import type { TabName } from "../types/settings";
+import type { TabName } from "../types/type";
 
 // Define route types
 export type RouteKey =

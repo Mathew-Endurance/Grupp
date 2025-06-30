@@ -3,12 +3,9 @@ import Sidebar from "./Sidebar";
 import MobileMenu from "./MobileMenu";
 import MobileFooter from "./MobileFooter";
 import { sidebarItems } from "../data";
+import { Outlet } from "react-router-dom";
 
-interface PageLayoutProps {
-  children: React.ReactNode;
-}
-
-const PageLayout: React.FC<PageLayoutProps> = ({ children }) => {
+const PageLayout: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
 
   const handleMobileMenuToggle = (): void => {
@@ -24,18 +21,17 @@ const PageLayout: React.FC<PageLayoutProps> = ({ children }) => {
       />
 
       <div className="flex w-full mt-16 md:mt-2">
-        {/* Desktop Sidebar - hidden on mobile */}
         <div className="hidden lg:block">
           <Sidebar sidebarItems={sidebarItems} />
         </div>
 
-        {/* Main Content */}
         <div className="flex-1 w-full">
-          <div className="p-4 lg:p-8">{children}</div>
+          <div className="p-4 lg:p-8">
+            <Outlet />
+          </div>
         </div>
       </div>
 
-      {/* Mobile Footer Navigation */}
       <MobileFooter />
     </div>
   );

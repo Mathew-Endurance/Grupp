@@ -1,6 +1,12 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { Check, User } from "lucide-react";
-import type { Role } from "../types/settings";
+import type {
+  Role,
+  UseRouteMetadataOptions,
+  UseRouteMetadataReturn,
+} from "../types/type";
+import { useLocation } from "react-router-dom";
+import { DEFAULT_METADATA, ROUTE_METADATA } from "../data";
 
 export const generateAvatars = (
   images: string[] | undefined
@@ -49,3 +55,29 @@ export const getStatusColor = (status: Role["status"]) =>
       icon: <Check size={14} className="mr-1" />,
     },
   }[status] ?? { color: "bg-orange-100 text-orange-800", icon: null });
+
+export const useRouteMetadata = (
+  options: UseRouteMetadataOptions = {}
+): UseRouteMetadataReturn => {
+  const { fallback = DEFAULT_METADATA } = options;
+  const location = useLocation();
+
+  return useMemo(() => {
+    const currentPath = location.pathname;
+    const metadata = ROUTE_METADATA[currentPath];
+
+    if (metadata) {
+      return {
+        ...metadata,
+        isValidRoute: true,
+        routeKey: currentPath,
+      };
+    }
+
+    return {
+      ...fallback,
+      isValidRoute: false,
+      routeKey: currentPath,
+    };
+  }, [location.pathname, fallback]);
+};

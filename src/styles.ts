@@ -7,7 +7,6 @@ export const COLORS = {
   info: "blue",
 };
 
-// Status styling
 export interface StatusStyle {
   color: string;
   bgColor: string;
@@ -43,31 +42,25 @@ export const getStatusStyles = (status: string): StatusStyle => {
   }
 };
 
-// Common component styles
 export const COMPONENT_STYLES = {
-  // Button styles
   button: {
     primary: "bg-purple-600 hover:bg-purple-700 text-w",
     secondary: "bg-white border border-gray-300 hover:bg-gray-50 text-gray-700",
     danger: "bg-red-600 hover:bg-red-700 text-white",
   },
 
-  // Active state styles
   activeState: {
     tab: "border-purple-500 text-purple-600",
     sidebar: "bg-purple-50 text-purple-600 border-l-4 border-purple-600",
     default: "text-purple-600",
   },
 
-  // Input styles
   input:
     "w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent",
 
-  // Card styles
   card: "bg-white rounded-lg shadow",
 };
 
-// Helper function to conditionally join classes
 export const classNames = (
   ...classes: (string | boolean | undefined)[]
 ): string => {
